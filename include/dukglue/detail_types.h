@@ -66,8 +66,10 @@ namespace dukglue {
 
 				// make sure this object can be safely returned as a T*
 				TypeInfo* info = static_cast<TypeInfo*>(duk_get_pointer(ctx, -1));
-				if (!info->can_cast<T>())
-					duk_error(ctx, DUK_RET_TYPE_ERROR, "Argument %d: wrong type of native object", arg_idx);
+        if (!info->can_cast<T>()){
+          const std::string names = info->names();
+					duk_error(ctx, DUK_RET_TYPE_ERROR, "Argument %d: wrong type of native object, was %s", arg_idx, names.c_str());
+        }
 
 				duk_pop(ctx);  // pop type_info
 

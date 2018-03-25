@@ -1,6 +1,7 @@
 #pragma once
 
 #include <typeindex>
+#include <sstream>
 
 namespace dukglue
 {
@@ -54,6 +55,15 @@ namespace dukglue
 			inline bool operator>=(const TypeInfo& rhs) const { return index_ >= rhs.index_; }
 			inline bool operator==(const TypeInfo& rhs) const { return index_ == rhs.index_; }
 			inline bool operator!=(const TypeInfo& rhs) const { return index_ != rhs.index_; }
+
+      std::string names() const
+      {
+        std::stringstream ss;
+        ss << index_.name();
+        if(base_)
+          ss << " " << base_->names();
+        return ss.str();
+      }
 
 		private:
 			std::type_index index_;
